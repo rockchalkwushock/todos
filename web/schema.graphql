@@ -1,0 +1,15 @@
+"Represents a schema"
+schema {
+  query: RootQueryType
+}
+
+"An item"
+type Item {
+  id: ID
+  name: String
+}
+
+type RootQueryType {
+  "Test Query"
+  item(id: ID!): Item
+}
