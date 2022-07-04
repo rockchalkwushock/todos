@@ -40,5 +40,11 @@ defmodule AppWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug Corsica,
+    allow_credentials: true,
+    allow_headers: :all,
+    allow_methods: ["GET", "POST"],
+    max_age: 86400,
+    origins: ["http://localhost:3000"]
   plug AppWeb.Router
 end
