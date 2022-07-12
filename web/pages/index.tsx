@@ -5,7 +5,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage<{ query: { id: string } }> = ({ query }) => {
-  const { data, status } = useTestQuery({ id: query.id })
+  const { data, status } = useTestQuery({ id: query.id ?? 'foo' })
   return (
     <div className={styles.container}>
       <Head>
