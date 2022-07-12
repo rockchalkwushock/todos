@@ -12,17 +12,6 @@ defmodule AppWeb.Endpoint do
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
-  # You should set gzip to true if you are running phx.digest
-  # when deploying your static files in production.
-  plug(Plug.Static,
-    at: "/",
-    from: :api,
-    gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
-  )
-
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -60,6 +49,17 @@ defmodule AppWeb.Endpoint do
     # Is there a more conditional manner in doing this?
     # Obviously don't want localhost:3000 in production...
     origins: [~r{https:\/\/(solitary-pine-572)(-web-|-.+-)(rockchalkwushock.vercel.app)}, "http://localhost:3000"]
+  )
+
+  # Serve at "/" the static files from "priv/static" directory.
+  #
+  # You should set gzip to true if you are running phx.digest
+  # when deploying your static files in production.
+  plug(Plug.Static,
+    at: "/",
+    from: :api,
+    gzip: false,
+    only: ~w(assets fonts images favicon.ico robots.txt)
   )
 
   plug(AppWeb.Router)
