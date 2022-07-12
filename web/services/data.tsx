@@ -33,6 +33,7 @@ export const fetcher = <TData, TVariables>(
         ...(options ?? {}),
       },
       method: 'POST',
+      mode: 'cors',
     })
 
     const { errors, data } = await res.json()
