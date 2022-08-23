@@ -1,0 +1,18 @@
+mutation AddTodo($inputs: AddTodoInputs!) {
+  result: addTodo(inputs: $inputs) {
+    data {
+      createdAt
+      description
+      endDate
+      id
+      modifiedAt
+      name
+      startDate
+      status
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

@@ -1,0 +1,12 @@
+query ListTodos {
+  todos {
+    createdAt
+    description
+    endDate
+    id
+    modifiedAt
+    name
+    startDate
+    status
+  }
+}

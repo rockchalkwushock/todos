@@ -1,0 +1,12 @@
+query GetTodo($id: ID!) {
+  todo(id: $id) {
+    createdAt
+    description
+    endDate
+    id
+    modifiedAt
+    name
+    startDate
+    status
+  }
+}
