@@ -45,6 +45,8 @@ defmodule App.MixProject do
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
       {:corsica, "~> 1.2"},
+      # Dev & Testing
+      {:faker, "~> 0.17", only: [:dev, :test]}
     ]
   end
 
@@ -60,7 +62,8 @@ defmodule App.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "gen.sdl": ["absinthe.schema.sdl --schema AppWeb.Schema.Schema ../web/schema.graphql"]
+      "gen.sdl": ["absinthe.schema.sdl --schema AppWeb.Schema.Schema ../web/schema.graphql"],
+      start: ["phx.server"]
     ]
   end
 end
