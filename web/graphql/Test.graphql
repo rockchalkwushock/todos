@@ -1,5 +1,0 @@
-query Test($id: ID!) {
-  item(id: $id) {
-    name
-  }
-}
