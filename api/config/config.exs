@@ -12,6 +12,10 @@ config :api,
   ecto_repos: [App.Repo],
   generators: [binary_id: true]
 
+# Advanced configuration for database
+config :api, App.Repo,
+  migration_timestamps: [inserted_at: :created_at, type: :utc_datetime_usec, updated_at: :modified_at]
+
 # Configures the endpoint
 config :api, AppWeb.Endpoint,
   url: [host: "localhost"],

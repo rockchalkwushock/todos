@@ -9,3 +9,21 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias Faker
+alias App.Repo
+alias App.Content.Todo
+
+# Seed the database with 10 todos.
+for _ <- 1..10 do
+  %Todo{
+    description: Faker.Lorem.paragraph(1),
+    end_date:
+      Faker.DateTime.between(
+        DateTime.to_naive(DateTime.utc_now()),
+        DateTime.to_naive(Faker.DateTime.forward(30))
+      ),
+    name: Faker.Lorem.words(1..5),
+    start_date: DateTime.utc_now()
+  }
+  |> Repo.insert!()
+end
