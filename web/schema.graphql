@@ -1,15 +1,96 @@
 "Represents a schema"
 schema {
   query: RootQueryType
+  mutation: RootMutationType
 }
 
-"An item"
-type Item {
-  id: ID
-  name: String
+"Mutation ErrorType"
+type ErrorType {
+  "Field in which error occurred on."
+  field: String!
+
+  "Validation error message for corresponding field."
+  message: String!
+}
+
+"Todo"
+type Todo {
+  "Date todo was archived."
+  archivedAt: DateTime
+
+  "Date todo was created."
+  createdAt: DateTime!
+
+  "Date todo was deleted."
+  deletedAt: DateTime
+
+  "Description of todo."
+  description: String
+
+  "Date todo is set to end."
+  endDate: DateTime!
+
+  id: ID!
+
+  "Date todo was last modified."
+  modifiedAt: DateTime!
+
+  "Name of todo."
+  name: String!
+
+  "Date todo is set to start."
+  startDate: DateTime!
+
+  "Status of todo."
+  status: TodoStatus!
+}
+
+type RootMutationType {
+  "Add Todo."
+  addTodo(inputs: AddTodoInputs!): TodoPayload!
 }
 
 type RootQueryType {
-  "Test Query"
-  item(id: ID!): Item
+  "Get all todos."
+  todos: [Todo]!
+
+  "Get a todo."
+  todo(id: ID!): Todo
+}
+
+"""
+The `DateTime` scalar type represents a date and time in the UTC
+timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+string, including UTC timezone ("Z"). The parsed date and time string will
+be converted to UTC if there is an offset.
+"""
+scalar DateTime
+
+"Todo Payload."
+type TodoPayload {
+  data: Todo
+  errors: [ErrorType!]
+}
+
+"Status of a Todo"
+enum TodoStatus {
+  "Archived State"
+  ARCHIVED
+
+  "Finished State"
+  FINISHED
+
+  "In-Progress State"
+  IN_PROGRESS
+
+  "Unstarted State"
+  UNSTARTED
+}
+
+"Inputs for Adding a Todo."
+input AddTodoInputs {
+  description: String
+  endDate: DateTime!
+  name: String!
+  startDate: DateTime!
 }
