@@ -1,25 +1,20 @@
 defmodule AppWeb.Schema.Schema do
+  @moduledoc """
+  GraphQL Schema
+  """
   use Absinthe.Schema
 
-  @items %{
-    "foo" => %{id: "foo", name: "Foo"},
-    "bar" => %{id: "bar", name: "Bar"}
-  }
+  alias App.{Content}
 
-  query do
-    @desc "Test Query"
-    field :item, :item do
-      arg(:id, non_null(:id))
+  import_types(Absinthe.Type.Custom)
+  import_types(AppWeb.Schema.InternalTypes)
+  import_types(AppWeb.Schema.TodoTypes)
 
-      resolve(fn %{id: item_id}, _ ->
-        {:ok, @items[item_id]}
-      end)
-    end
+  mutation do
+    import_fields(:todo_mutations)
   end
 
-  @desc "An item"
-  object :item do
-    field(:id, :id)
-    field(:name, :string)
+  query do
+    import_fields(:todo_queries)
   end
 end
