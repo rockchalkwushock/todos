@@ -1,11 +1,41 @@
-import { useTestQuery } from '@hooks/generated-hooks'
+import { useListTodos, useGetTodo, useAddTodo } from '@hooks/generated-hooks'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useCallback } from 'react'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage<{ query: { id: string } }> = ({ query }) => {
-  const { data, status } = useTestQuery({ id: query.id ?? 'foo' })
+const Home: NextPage = () => {
+  const {
+    data: todos,
+    refetch: refetchAllTodos,
+    status,
+  } = useListTodos(undefined, {
+    keepPreviousData: true,
+    refetchOnReconnect: 'always',
+    refetchOnWindowFocus: true,
+    suspense: undefined,
+  })
+  const { data: todo, status: todoStatus } = useGetTodo({ id: '1' })
+  const { mutateAsync: addTodo } = useAddTodo({
+    onError: () => {},
+    onSettled: () => {
+      refetchAllTodos()
+    },
+    onSuccess: () => {},
+  })
+
+  const onAddTodo = useCallback(async () => {
+    await addTodo({
+      inputs: {
+        description: null,
+        endDate: '2022-08-23T22:00:00.000Z',
+        name: 'Manually Created Todo',
+        startDate: '2022-08-23T20:00:00.000Z',
+      },
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div className={styles.container}>
       <Head>
@@ -24,10 +54,27 @@ const Home: NextPage<{ query: { id: string } }> = ({ query }) => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
+        <hr />
+
+        <button onClick={onAddTodo}>Add Todo</button>
+
+        <hr />
+
+        <h1>Individual Todo</h1>
+        {todoStatus === 'error' && <h1>Error</h1>}
+        {todoStatus === 'loading' && <h1>Loading...</h1>}
+        {todoStatus === 'success' && todos && (
+          <pre>{JSON.stringify(todo, undefined, 2)}</pre>
+        )}
+
+        <hr />
+
+        <h1>All Todos</h1>
+
         {status === 'error' && <h1>Error</h1>}
         {status === 'loading' && <h1>Loading...</h1>}
-        {status === 'success' && data && (
-          <pre>{JSON.stringify(data, undefined, 2)}</pre>
+        {status === 'success' && todos && (
+          <pre>{JSON.stringify(todos, undefined, 2)}</pre>
         )}
       </main>
 
