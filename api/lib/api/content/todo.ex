@@ -1,14 +1,13 @@
 defmodule App.Content.Todo do
-  use Ecto.Schema
+  use App.Schema
+  use Timex
   import Ecto.Changeset
 
-  @optional_fields ~w(archived_at deleted_at description status)a
+  @optional_fields ~w(archived_at description status)a
   @required_fields ~w(end_date name start_date)a
-  @timestamps_opts [inserted_at: :created_at, type: :utc_datetime_usec, updated_at: :modified_at]
 
   schema "todos" do
     field(:archived_at, :utc_datetime_usec)
-    field(:deleted_at, :utc_datetime_usec)
     field(:description, :string)
     field(:end_date, :utc_datetime_usec)
     field(:name, :string)
@@ -19,7 +18,7 @@ defmodule App.Content.Todo do
       default: :unstarted
     )
 
-    timestamps(@timestamps_opts)
+    timestamps()
   end
 
   def changeset(todo, attrs) do

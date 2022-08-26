@@ -1,8 +1,6 @@
 defmodule App.Repo.Migrations.CreateTodos do
   use Ecto.Migration
 
-  @timestamps_opts [inserted_at: :created_at, type: :utc_datetime_usec, updated_at: :modified_at]
-
   def change do
     create table(:todos) do
       add :archived_at, :utc_datetime_usec
@@ -13,7 +11,7 @@ defmodule App.Repo.Migrations.CreateTodos do
       add :start_date, :utc_datetime_usec, null: false
       add :status, :string, default: "unstarted", null: false
 
-      timestamps(@timestamps_opts)
+      timestamps()
     end
   end
 end
