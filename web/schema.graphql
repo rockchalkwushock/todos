@@ -22,7 +22,7 @@ type Todo {
   createdAt: DateTime!
 
   "Date todo was deleted."
-  deletedAt: DateTime
+  deletedAt: DateTime @deprecated(reason: "In-lieu of archive_at for soft-deletes.")
 
   "Description of todo."
   description: String
