@@ -22,7 +22,7 @@ for _ <- 1..10 do
         DateTime.to_naive(DateTime.utc_now()),
         DateTime.to_naive(Faker.DateTime.forward(30))
       ),
-    name: Faker.Lorem.words(1..5),
+    name: Faker.Lorem.word(),
     start_date: DateTime.utc_now()
   }
   |> Repo.insert!()
