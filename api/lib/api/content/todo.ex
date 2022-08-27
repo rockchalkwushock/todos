@@ -1,6 +1,5 @@
 defmodule App.Content.Todo do
   use App.Schema
-  use Timex
   import Ecto.Changeset
 
   @optional_fields ~w(archived_at description status)a
@@ -25,10 +24,10 @@ defmodule App.Content.Todo do
     todo
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> validate_start_date_before_end_date()
+    |> validate_start_date_after_end_date()
   end
 
-  defp validate_start_date_before_end_date(changeset) do
+  defp validate_start_date_after_end_date(changeset) do
     case changeset.valid? do
       true ->
         start_date = get_field(changeset, :start_date)
