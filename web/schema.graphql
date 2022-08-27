@@ -45,9 +45,30 @@ type Todo {
   status: TodoStatus!
 }
 
+"Inputs for Editing a Todo."
+input EditTodoInputs {
+  description: String
+  endDate: DateTime!
+  id: String!
+  name: String!
+  startDate: DateTime!
+  status: TodoStatus!
+}
+
+"Inputs for Removing a Todo."
+input RemoveTodoInputs {
+  id: String!
+}
+
 type RootMutationType {
   "Add Todo."
   addTodo(inputs: AddTodoInputs!): TodoPayload!
+
+  "Edit Todo."
+  editTodo(inputs: EditTodoInputs!): TodoPayload!
+
+  "Remove Todo."
+  removeTodo(inputs: RemoveTodoInputs!): TodoPayload!
 }
 
 type RootQueryType {
