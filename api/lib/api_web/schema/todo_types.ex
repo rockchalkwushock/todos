@@ -18,8 +18,9 @@ defmodule AppWeb.Schema.TodoTypes do
     field(:created_at, non_null(:datetime))
     @desc "Date todo was deleted."
     field :deleted_at, :datetime do
-      deprecate "In-lieu of archive_at for soft-deletes."
+      deprecate("In-lieu of archive_at for soft-deletes.")
     end
+
     @desc "Description of todo."
     field(:description, :string)
     @desc "Date todo is set to end."
@@ -42,14 +43,13 @@ defmodule AppWeb.Schema.TodoTypes do
     @desc "Get all todos."
     field :todos, non_null(list_of(:todo)) do
       resolve(&Resolvers.Content.todos/3)
-      middleware(HandleError)
     end
 
     @desc "Get a todo."
     field :todo, :todo do
       arg(:id, non_null(:id))
       resolve(&Resolvers.Content.todo/3)
-      middleware(HandleError)
+      middleware(HandleError, :id)
     end
   end
 
@@ -61,7 +61,7 @@ defmodule AppWeb.Schema.TodoTypes do
     field :add_todo, non_null(:todo_payload) do
       arg(:inputs, non_null(:add_todo_inputs))
       resolve(&Resolvers.Content.add_todo/3)
-      middleware(HandleError)
+      middleware(HandleError, :add_todo_inputs)
     end
   end
 

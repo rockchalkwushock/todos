@@ -7,7 +7,19 @@ defmodule AppWeb.Resolvers.Content do
   # Todo Queries
 
   def todo(_, %{id: id}, _) do
-    {:ok, Content.get_todo!(id)}
+    case Content.get_todo(id) do
+      # HACK:
+      # Using get!/3 like I would prefer is not catchable since it raises
+      # Ecto.NoResultsError instead of returning a changeset.errors
+      # So if we encounter "nil" we didn't find anything and should let the
+      # user know.
+      nil ->
+        {:error, message: "No todo with id: #{id} was found."}
+
+      # FIXME: How to capture this pattern? %App.Content.Todo{...}
+      _ ->
+        {:ok, Content.get_todo(id)}
+    end
   end
 
   def todos(_, _, _) do

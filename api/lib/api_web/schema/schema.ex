@@ -4,8 +4,6 @@ defmodule AppWeb.Schema.Schema do
   """
   use Absinthe.Schema
 
-  alias App.{Content}
-
   import_types(Absinthe.Type.Custom)
   import_types(AppWeb.Schema.InternalTypes)
   import_types(AppWeb.Schema.TodoTypes)
