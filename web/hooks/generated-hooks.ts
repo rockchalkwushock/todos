@@ -10,7 +10,7 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query'
 import { fetcher } from '@services/data'
-// Generated on 23.08.2022 10:29
+// Generated on 26.08.2022 21:26
 
 export const AddTodoDocument = `
     mutation AddTodo($inputs: AddTodoInputs!) {
@@ -39,6 +39,41 @@ export const useAddTodo = <TError = T.ErrorType, TContext = unknown>(
     ['AddTodo'],
     (variables?: T.AddTodoVariables) =>
       fetcher<T.AddTodo, T.AddTodoVariables>(AddTodoDocument, variables)(),
+    options
+  )
+export const EditTodoDocument = `
+    mutation EditTodo($inputs: EditTodoInputs!) {
+  result: editTodo(inputs: $inputs) {
+    data {
+      archivedAt
+      createdAt
+      description
+      endDate
+      id
+      modifiedAt
+      name
+      startDate
+      status
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `
+export const useEditTodo = <TError = T.ErrorType, TContext = unknown>(
+  options?: UseMutationOptions<
+    T.EditTodo,
+    TError,
+    T.EditTodoVariables,
+    TContext
+  >
+) =>
+  useMutation<T.EditTodo, TError, T.EditTodoVariables, TContext>(
+    ['EditTodo'],
+    (variables?: T.EditTodoVariables) =>
+      fetcher<T.EditTodo, T.EditTodoVariables>(EditTodoDocument, variables)(),
     options
   )
 export const GetTodoDocument = `
@@ -85,5 +120,35 @@ export const useListTodos = <TData = T.ListTodos, TError = T.ErrorType>(
   useQuery<T.ListTodos, TError, TData>(
     variables === undefined ? ['ListTodos'] : ['ListTodos', variables],
     fetcher<T.ListTodos, T.ListTodosVariables>(ListTodosDocument, variables),
+    options
+  )
+export const RemoveTodoDocument = `
+    mutation RemoveTodo($inputs: RemoveTodoInputs!) {
+  result: removeTodo(inputs: $inputs) {
+    data {
+      id
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `
+export const useRemoveTodo = <TError = T.ErrorType, TContext = unknown>(
+  options?: UseMutationOptions<
+    T.RemoveTodo,
+    TError,
+    T.RemoveTodoVariables,
+    TContext
+  >
+) =>
+  useMutation<T.RemoveTodo, TError, T.RemoveTodoVariables, TContext>(
+    ['RemoveTodo'],
+    (variables?: T.RemoveTodoVariables) =>
+      fetcher<T.RemoveTodo, T.RemoveTodoVariables>(
+        RemoveTodoDocument,
+        variables
+      )(),
     options
   )

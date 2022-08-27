@@ -1,0 +1,19 @@
+mutation EditTodo($inputs: EditTodoInputs!) {
+  result: editTodo(inputs: $inputs) {
+    data {
+      archivedAt
+      createdAt
+      description
+      endDate
+      id
+      modifiedAt
+      name
+      startDate
+      status
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

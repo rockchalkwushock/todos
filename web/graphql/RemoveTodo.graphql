@@ -1,0 +1,11 @@
+mutation RemoveTodo($inputs: RemoveTodoInputs!) {
+  result: removeTodo(inputs: $inputs) {
+    data {
+      id
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

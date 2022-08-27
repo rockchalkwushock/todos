@@ -13,7 +13,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>
 }
-// Generated on 23.08.2022 10:29
+// Generated on 26.08.2022 21:26
 
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -39,6 +39,16 @@ export type AddTodoInputs = {
   startDate: Scalars['DateTime']
 }
 
+/** Inputs for Editing a Todo. */
+export type EditTodoInputs = {
+  description: InputMaybe<Scalars['String']>
+  endDate: Scalars['DateTime']
+  id: Scalars['String']
+  name: Scalars['String']
+  startDate: Scalars['DateTime']
+  status: TodoStatus
+}
+
 /** Mutation ErrorType */
 export type ErrorType = {
   __typename: 'ErrorType'
@@ -48,14 +58,31 @@ export type ErrorType = {
   message: Scalars['String']
 }
 
+/** Inputs for Removing a Todo. */
+export type RemoveTodoInputs = {
+  id: Scalars['String']
+}
+
 export type RootMutationType = {
   __typename: 'RootMutationType'
   /** Add Todo. */
   addTodo: TodoPayload
+  /** Edit Todo. */
+  editTodo: TodoPayload
+  /** Remove Todo. */
+  removeTodo: TodoPayload
 }
 
 export type RootMutationTypeAddTodoArgs = {
   inputs: AddTodoInputs
+}
+
+export type RootMutationTypeEditTodoArgs = {
+  inputs: EditTodoInputs
+}
+
+export type RootMutationTypeRemoveTodoArgs = {
+  inputs: RemoveTodoInputs
 }
 
 export type RootQueryType = {
@@ -77,7 +104,10 @@ export type Todo = {
   archivedAt: Maybe<Scalars['DateTime']>
   /** Date todo was created. */
   createdAt: Scalars['DateTime']
-  /** Date todo was deleted. */
+  /**
+   * Date todo was deleted.
+   * @deprecated In-lieu of archive_at for soft-deletes.
+   */
   deletedAt: Maybe<Scalars['DateTime']>
   /** Description of todo. */
   description: Maybe<Scalars['String']>
@@ -139,6 +169,33 @@ export type AddTodo = {
   }
 }
 
+export type EditTodoVariables = Exact<{
+  inputs: EditTodoInputs
+}>
+
+export type EditTodo = {
+  result: {
+    __typename: 'TodoPayload'
+    data: {
+      __typename: 'Todo'
+      archivedAt: string | null
+      createdAt: string
+      description: string | null
+      endDate: string
+      id: string
+      modifiedAt: string
+      name: string
+      startDate: string
+      status: TodoStatus
+    } | null
+    errors: Array<{
+      __typename: 'ErrorType'
+      field: string
+      message: string
+    }> | null
+  }
+}
+
 export type GetTodoVariables = Exact<{
   id: Scalars['ID']
 }>
@@ -171,4 +228,20 @@ export type ListTodos = {
     startDate: string
     status: TodoStatus
   } | null>
+}
+
+export type RemoveTodoVariables = Exact<{
+  inputs: RemoveTodoInputs
+}>
+
+export type RemoveTodo = {
+  result: {
+    __typename: 'TodoPayload'
+    data: { __typename: 'Todo'; id: string } | null
+    errors: Array<{
+      __typename: 'ErrorType'
+      field: string
+      message: string
+    }> | null
+  }
 }
