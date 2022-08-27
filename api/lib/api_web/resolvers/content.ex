@@ -3,6 +3,7 @@ defmodule AppWeb.Resolvers.Content do
   Resolvers for all Content Context Models
   """
   alias App.Content
+  alias App.Content.{Todo}
 
   # Todo Queries
 
@@ -30,6 +31,32 @@ defmodule AppWeb.Resolvers.Content do
 
   def add_todo(_, %{inputs: inputs}, _) do
     case Content.create_todo(inputs) do
+      {:error, changeset} ->
+        {:error, changeset}
+
+      {:ok, %Todo{} = todo} ->
+        {:ok, %{data: todo}}
+    end
+  end
+
+  def edit_todo(_, %{inputs: inputs}, _) do
+    # FIXME: This will fail if the :id does not exist.
+    todo = Content.get_todo(inputs[:id])
+
+    case Content.update_todo(todo, inputs) do
+      {:error, changeset} ->
+        {:error, changeset}
+
+      {:ok, todo} ->
+        {:ok, %{data: todo}}
+    end
+  end
+
+  def remove_todo(_, %{inputs: inputs}, _) do
+    # FIXME: This will fail if the :id does not exist.
+    todo = Content.get_todo(inputs[:id])
+
+    case Content.delete_todo(todo) do
       {:error, changeset} ->
         {:error, changeset}
 

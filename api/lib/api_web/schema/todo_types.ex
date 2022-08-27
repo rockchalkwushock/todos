@@ -63,6 +63,20 @@ defmodule AppWeb.Schema.TodoTypes do
       resolve(&Resolvers.Content.add_todo/3)
       middleware(HandleError, :add_todo_inputs)
     end
+
+    @desc "Edit Todo."
+    field :edit_todo, non_null(:todo_payload) do
+      arg(:inputs, non_null(:edit_todo_inputs))
+      resolve(&Resolvers.Content.edit_todo/3)
+      middleware(HandleError, :edit_todo_inputs)
+    end
+
+    @desc "Remove Todo."
+    field :remove_todo, non_null(:todo_payload) do
+      arg(:inputs, non_null(:remove_todo_inputs))
+      resolve(&Resolvers.Content.remove_todo/3)
+      middleware(HandleError, :remove_todo_inputs)
+    end
   end
 
   # Mutation Inputs
@@ -73,6 +87,21 @@ defmodule AppWeb.Schema.TodoTypes do
     field(:end_date, non_null(:datetime))
     field(:name, non_null(:string))
     field(:start_date, non_null(:datetime))
+  end
+
+  @desc "Inputs for Editing a Todo."
+  input_object :edit_todo_inputs do
+    field(:description, :string)
+    field(:end_date, non_null(:datetime))
+    field(:id, non_null(:string))
+    field(:name, non_null(:string))
+    field(:start_date, non_null(:datetime))
+    field(:status, non_null(:todo_status))
+  end
+
+  @desc "Inputs for Removing a Todo."
+  input_object :remove_todo_inputs do
+    field(:id, non_null(:string))
   end
 
   # Mutation Payloads
