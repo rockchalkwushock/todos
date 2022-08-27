@@ -24,9 +24,9 @@ defmodule AppWeb.Schema.Mutations.AddTodoTest do
 
   test "add_todo query returns todo" do
     inputs = %{
-      end_date: to_string(~U[2022-08-26T23:59:00.000000Z]),
+      endDate: to_string(~U[2022-08-26T23:59:00.000000Z]),
       name: "Test Todo",
-      start_date: to_string(~U[2022-08-26T22:59:00.000000Z])
+      startDate: to_string(~U[2022-08-26T22:59:00.000000Z])
     }
 
     conn = build_conn()
